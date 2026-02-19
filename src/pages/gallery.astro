@@ -1,0 +1,23 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const photos = [
+  "/gallery/01.jpg",
+  "/gallery/02.jpg",
+  "/gallery/03.jpg",
+  "/gallery/04.jpg",
+];
+---
+
+<SiteLayout title="Galería | Omar Viazcán" description="Fotos y momentos.">
+  <h1 style="margin:0 0 10px;">Galería</h1>
+  <p style="margin:0 0 22px;color:var(--muted);">Sube imágenes a <code>public/gallery</code> y actualiza esta lista. (Luego lo hacemos automático.)</p>
+
+  <div class="grid grid-3">
+    {photos.map(src => (
+      <a class="card" href={src} target="_blank" rel="noreferrer" style="padding:10px;">
+        <img src={src} alt="Foto" style="width:100%;height:220px;object-fit:cover;border-radius:14px;border:1px solid var(--line);" />
+      </a>
+    ))}
+  </div>
+</SiteLayout>

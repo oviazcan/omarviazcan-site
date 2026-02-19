@@ -1,0 +1,41 @@
+---
+const { title = "Omar Viazcán", description = "Música, álbumes, blog y contacto." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="stylesheet" href="/src/styles/site.css" />
+  </head>
+
+  <body>
+    <header style="position:sticky;top:0;backdrop-filter: blur(10px);background: rgba(11,15,25,0.65);border-bottom:1px solid var(--line);z-index:10;">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;">
+        <a href="/" style="font-weight:700;letter-spacing:0.4px;">Omar Viazcán</a>
+        <nav style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="/albums" class="badge">Álbumes</a>
+          <a href="/gallery" class="badge">Galería</a>
+          <a href="/blog" class="badge">Blog</a>
+          <a href="/about" class="badge">Acerca</a>
+          <a href="/links" class="badge">Escuchar</a>
+          <a href="/contact" class="badge">Contacto</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container" style="padding: 28px 0 60px;">
+      <slot />
+    </main>
+
+    <footer class="container" style="padding: 28px 0 50px; border-top:1px solid var(--line); color: var(--muted);">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;">
+        <span>© {new Date().getFullYear()} Omar Viazcán</span>
+        <span>Hecho con Astro + Cloudflare Pages (sin WordPress).</span>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+---
+const { title, year, cover, href, featured } = Astro.props;
+---
+
+<a class="card" href={href} style="display:block;transition:transform .15s ease;">
+  <div style="display:flex;gap:14px;">
+    <img src={cover} alt={`Portada ${title}`} width="92" height="92" style="border-radius:14px;object-fit:cover;border:1px solid var(--line);" />
+    <div style="flex:1;">
+      <div style="display:flex;justify-content:space-between;gap:10px;">
+        <h3 style="margin:0;font-size:18px;">{title}</h3>
+        <span class="badge">{year}</span>
+      </div>
+      {featured ? <p style="margin:10px 0 0;color:var(--muted);">Destacado</p> : <p style="margin:10px 0 0;color:var(--muted);">Ver detalles</p>}
+    </div>
+  </div>
+</a>

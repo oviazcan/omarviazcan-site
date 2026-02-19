@@ -1,0 +1,37 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths(){
+  const albums = await getCollection("albums");
+  return albums.map(a => ({ params: { slug: a.slug }, props: { album: a } }));
+}
+
+const { album } = Astro.props;
+const { Content } = await album.render();
+const links = album.data.links ?? {};
+---
+
+<SiteLayout title={`${album.data.title} | Omar Viazcán`} description={`Álbum ${album.data.title} (${album.data.year})`}>
+  <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;">
+    <img src={album.data.cover} alt={`Portada ${album.data.title}`} width="220" height="220"
+      style="border-radius:18px;object-fit:cover;border:1px solid var(--line);" />
+
+    <div style="flex:1;min-width:260px;">
+      <h1 style="margin:0 0 8px;">{album.data.title}</h1>
+      <div class="badge" style="margin-bottom:14px;">{album.data.year}</div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin: 10px 0 18px;">
+        {links.reverbnation && <a class="badge" href={links.reverbnation} target="_blank" rel="noreferrer">ReverbNation</a>}
+        {links.spotify && <a class="badge" href={links.spotify} target="_blank" rel="noreferrer">Spotify</a>}
+        {links.apple && <a class="badge" href={links.apple} target="_blank" rel="noreferrer">Apple Music</a>}
+        {links.youtube && <a class="badge" href={links.youtube} target="_blank" rel="noreferrer">YouTube</a>}
+        {links.bandcamp && <a class="badge" href={links.bandcamp} target="_blank" rel="noreferrer">Bandcamp</a>}
+      </div>
+
+      <div style="color:var(--muted);">
+        <Content />
+      </div>
+    </div>
+  </div>
+</SiteLayout>

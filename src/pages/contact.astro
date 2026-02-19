@@ -1,0 +1,28 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const email = "yosoy@omarviazcan.com";
+---
+
+<SiteLayout title="Contacto | Omar Viazcán" description="Contacto y redes.">
+  <h1 style="margin:0 0 10px;">Contacto</h1>
+  <p style="margin:0 0 22px;color:var(--muted);">Contacto directo. Luego podemos agregar formulario con protección anti-spam si lo necesitas.</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h2 style="margin:0 0 10px;">Correo</h2>
+      <a class="badge" href={`mailto:${email}`}>{email}</a>
+      <p style="margin:14px 0 0;color:var(--muted);">Este correo llega a Gmail vía Cloudflare Email Routing.</p>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 10px;">Redes</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;">
+        <a class="badge" href="#" target="_blank" rel="noreferrer">Instagram</a>
+        <a class="badge" href="#" target="_blank" rel="noreferrer">YouTube</a>
+        <a class="badge" href="#" target="_blank" rel="noreferrer">Spotify</a>
+      </div>
+      <p style="margin:14px 0 0;color:var(--muted);">Actualiza estos links con los reales.</p>
+    </div>
+  </div>
+</SiteLayout>

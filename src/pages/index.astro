@@ -1,49 +1,59 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import SiteLayout from "../layouts/SiteLayout.astro";
+import AlbumCard from "../components/AlbumCard.astro";
+import { getCollection } from "astro:content";
+
+const albums = await getCollection("albums");
+const featured = albums.find(a => a.data.featured) ?? albums.sort((a,b)=>b.data.year-a.data.year)[0];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<SiteLayout title="Omar Viazcán" description="Música original, álbumes, blog y contacto.">
+  <section class="card" style="padding:24px;">
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:1;min-width:260px;">
+        <div class="badge">Músico • compositor • grabación casera con estándares indecentes</div>
+        <h1 style="margin:14px 0 10px;font-size:40px;line-height:1.1;">Omar Viazcán</h1>
+        <p style="margin:0;color:var(--muted);max-width:62ch;">
+          Un sitio simple: lo nuevo, la discografía, escucha gratuita y un blog para documentar el proceso sin fingir que todo es “marketing”.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+          <a class="badge" href="/links">Escuchar</a>
+          <a class="badge" href="/albums">Ver álbumes</a>
+          <a class="badge" href="/blog">Blog</a>
+          <a class="badge" href="/contact">Contacto</a>
+        </div>
+      </div>
+
+      {featured && (
+        <div style="min-width:320px;flex:0 0 360px;">
+          <h2 style="margin:0 0 10px;">Último / Destacado</h2>
+          <AlbumCard
+            title={featured.data.title}
+            year={featured.data.year}
+            cover={featured.data.cover}
+            featured={true}
+            href={`/albums/${featured.slug}/`}
+          />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section style="margin-top:22px;">
+    <h2 style="margin:0 0 10px;">Secciones</h2>
+    <div class="grid grid-3">
+      <a class="card" href="/albums">
+        <h3 style="margin:0 0 8px;">Discografía</h3>
+        <p style="margin:0;color:var(--muted);">Álbumes, links, tracklists y notas.</p>
+      </a>
+      <a class="card" href="/gallery">
+        <h3 style="margin:0 0 8px;">Galería</h3>
+        <p style="margin:0;color:var(--muted);">Fotos y detrás de cámaras.</p>
+      </a>
+      <a class="card" href="/blog">
+        <h3 style="margin:0 0 8px;">Blog</h3>
+        <p style="margin:0;color:var(--muted);">Bitácora de proceso, letras e ideas.</p>
+      </a>
+    </div>
+  </section>
+</SiteLayout>

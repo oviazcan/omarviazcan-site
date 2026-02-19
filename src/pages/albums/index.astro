@@ -1,0 +1,25 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import AlbumCard from "../../components/AlbumCard.astro";
+import { getCollection } from "astro:content";
+
+const albums = (await getCollection("albums"))
+  .sort((a,b) => b.data.year - a.data.year);
+---
+
+<SiteLayout title="Álbumes | Omar Viazcán" description="Discografía y detalles de cada lanzamiento.">
+  <h1 style="margin:0 0 10px;">Álbumes</h1>
+  <p style="margin:0 0 22px;color:var(--muted);">Agrega un archivo nuevo en <code>src/content/albums</code> y aparece aquí automáticamente.</p>
+
+  <div class="grid grid-3">
+    {albums.map(a => (
+      <AlbumCard
+        title={a.data.title}
+        year={a.data.year}
+        cover={a.data.cover}
+        featured={a.data.featured}
+        href={`/albums/${a.slug}/`}
+      />
+    ))}
+  </div>
+</SiteLayout>
