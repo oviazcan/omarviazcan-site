@@ -1,11 +1,12 @@
 ---
-import "../styles/site.css";
+const stylesheetHref = Astro.resolve("../styles/site.css");
 const { title = "Omar Viazcán", description = "Música, álbumes, blog y contacto." } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
+    <link rel="stylesheet" href={stylesheetHref} />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
