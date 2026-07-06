@@ -14,7 +14,7 @@
 <meta property="og:type" content="music.musician">
 <meta property="og:title" content="Omar Viazcán — Música espiritual, profunda y disruptiva">
 <meta property="og:description" content="Cantautor mexicano. Letras con peso, música espiritual sin ser religiosa. Escucha 'Primera Temporada' y descubre La Bóveda: canciones inéditas escondidas en el sitio.">
-<meta property="og:image" content="https://www.omarviazcan.com/assets/portada-primera-temporada.jpg">
+<meta property="og:image" content="assets/portada-primera-temporada.jpg">
 <meta property="og:url" content="https://www.omarviazcan.com/">
 <meta property="og:site_name" content="Omar Viazcán">
 <meta property="og:locale" content="es_MX">
@@ -24,7 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Omar Viazcán — Música espiritual, profunda y disruptiva">
 <meta name="twitter:description" content="Cantautor mexicano. Letras con peso, música espiritual sin ser religiosa. Escucha 'Primera Temporada'.">
-<meta name="twitter:image" content="https://www.omarviazcan.com/assets/portada-primera-temporada.jpg">
+<meta name="twitter:image" content="assets/portada-primera-temporada.jpg">
 
 <!-- Datos estructurados para buscadores -->
 <script type="application/ld+json">
@@ -453,7 +453,15 @@ body { transition: --bg1 .7s ease, --bg2 .7s ease, --acc .7s ease, --acc2 .7s ea
           <div style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .22em; color: color-mix(in srgb, var(--sub, #8fb0ac) 65%, transparent); padding: 16px 10px 6px;">{{ t.grupoBoveda }}</div>
           <sc-for list="{{ letrasBoveda }}" as="s" hint-placeholder-count="9">
             <div onClick="{{ s.elegir }}" title="{{ s.tip }}" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 7px 10px; border-radius: 7px; cursor: {{ s.cursor }}; color: {{ s.color }}; font-weight: {{ s.peso }}; font-family: 'Instrument Sans', sans-serif; font-size: 15px;" style-hover="background: color-mix(in srgb, var(--acc, #4fd8c4) 8%, transparent);">
-              <span style="filter: {{ s.blur }}; transition: filter .4s;">{{ s.titulo }}</span>
+              <span style="display: inline-flex; align-items: center; gap: 8px;">
+                <sc-if value="{{ s.candado }}" hint-placeholder-val="{{ false }}">
+                  <span style="position: relative; width: 11px; height: 11px; flex: none; opacity: .85;">
+                    <span style="position: absolute; left: 1.5px; top: 0; width: 8px; height: 6px; border: 1.5px solid currentColor; border-bottom: none; border-radius: 5px 5px 0 0;"></span>
+                    <span style="position: absolute; left: 0; bottom: 0; width: 11px; height: 6px; background: currentColor; border-radius: 1.5px;"></span>
+                  </span>
+                </sc-if>
+                <span style="filter: {{ s.blur }}; transition: filter .4s;">{{ s.titulo }}</span>
+              </span>
               <span style="font-family: 'Space Mono', monospace; font-size: 10px; opacity: .6;">{{ s.anio }}</span>
             </div>
           </sc-for>
@@ -474,6 +482,16 @@ body { transition: --bg1 .7s ease, --bg2 .7s ease, --acc .7s ease, --acc2 .7s ea
         </div>
       </div>
     </sc-if>
+  </div>
+
+  <div style="position: fixed; left: 50%; bottom: 40px; z-index: 70; width: min(420px, 88vw); pointer-events: {{ lockToastPointer }}; opacity: {{ lockToastOpacity }}; transform: translateX(-50%) {{ lockToastTransform }}; transition: opacity .35s ease, transform .35s ease;">
+    <div style="border: 1px solid color-mix(in srgb, var(--acc2, #e3b657) 55%, transparent); background: rgba(8,12,12,.96); border-radius: 12px; padding: 16px 18px; box-shadow: 0 20px 50px rgba(0,0,0,.45); display: flex; align-items: flex-start; gap: 12px;">
+      <span style="position: relative; width: 14px; height: 14px; flex: none; margin-top: 3px; color: var(--acc2, #e3b657);">
+        <span style="position: absolute; left: 2px; top: 0; width: 10px; height: 8px; border: 2px solid currentColor; border-bottom: none; border-radius: 6px 6px 0 0;"></span>
+        <span style="position: absolute; left: 0; bottom: 0; width: 14px; height: 8px; background: currentColor; border-radius: 2px;"></span>
+      </span>
+      <span style="font-family: 'Instrument Sans', sans-serif; font-size: 14px; line-height: 1.5; color: #cfd9d5;">{{ lockToastMsg }}</span>
+    </div>
   </div>
 </div>
 
@@ -728,7 +746,7 @@ class Component extends DCLogic {
   emoImgRef = React.createRef();
   emoLabelRef = React.createRef();
 
-  state = { dim: "sinapsis", fase: "auto", frase: 0, sug: 0, dado: -1, rodando: false, boveda: false, mv: false, vault: false, lang: (localStorage.getItem("ov-lang") || "es"), ahora: new Date(), playing: false, progreso: 0, vaultPlaying: -1, letras: null, letraSel: 0, vaultFound: (localStorage.getItem("ov-vault-found") === "1"), light: null, emoActive: false, emoLanded: false, emoLabel: "", emoIdx: 0 };
+  state = { dim: "sinapsis", fase: "auto", frase: 0, sug: 0, dado: -1, rodando: false, boveda: false, mv: false, vault: false, lang: (localStorage.getItem("ov-lang") || "es"), ahora: new Date(), playing: false, progreso: 0, vaultPlaying: -1, letras: null, letraSel: 0, vaultFound: (localStorage.getItem("ov-vault-found") === "1"), light: null, emoActive: false, emoLanded: false, emoLabel: "", emoIdx: 0, lockToast: false };
 
   TXT = {
     es: {
@@ -1029,7 +1047,14 @@ class Component extends DCLogic {
     if (this.audio) this.audio.pause();
     if (this.vaultAudio) this.vaultAudio.pause();
     clearTimeout(this.emoTimer); clearTimeout(this.emoHide);
+    clearTimeout(this.lockToastTimer);
   }
+
+  mostrarLockToast = () => {
+    clearTimeout(this.lockToastTimer);
+    this.setState({ lockToast: true });
+    this.lockToastTimer = setTimeout(() => this.setState({ lockToast: false }), 4200);
+  };
 
   playSug = (idx) => {
     const track = this.canciones[idx];
@@ -1326,12 +1351,18 @@ class Component extends DCLogic {
           color: locked ? "color-mix(in srgb, var(--sub, #8fb0ac) 45%, transparent)" : (this.state.letraSel === x.i ? "var(--acc, #4fd8c4)" : "var(--sub, #8fb0ac)"),
           peso: this.state.letraSel === x.i && !locked ? "700" : "400",
           blur: locked ? "blur(3.5px)" : "none",
-          cursor: locked ? "not-allowed" : "pointer",
+          cursor: locked ? "pointer" : "pointer",
+          candado: locked,
           tip: locked ? (this.state.lang === "en" ? this.TXT.en.bovedaLockTip : this.TXT.es.bovedaLockTip) : "",
-          elegir: locked ? (() => {}) : (() => this.setState({ letraSel: x.i }))
+          elegir: locked ? this.mostrarLockToast : (() => this.setState({ letraSel: x.i }))
         };
       }),
       bovedaBloqueada: !this.state.vaultFound,
+      lockToastShow: this.state.lockToast,
+      lockToastOpacity: this.state.lockToast ? 1 : 0,
+      lockToastTransform: this.state.lockToast ? "translateY(0)" : "translateY(10px)",
+      lockToastPointer: this.state.lockToast ? "auto" : "none",
+      lockToastMsg: this.state.lang === "en" ? this.TXT.en.bovedaLockTip : this.TXT.es.bovedaLockTip,
       letraTitulo: (this.state.letras && this.state.letras[this.state.letraSel]) ? this.state.letras[this.state.letraSel].t : "",
       letraAnio: (this.state.letras && this.state.letras[this.state.letraSel]) ? this.state.letras[this.state.letraSel].a : "",
       letraLineas: (this.state.letras && this.state.letras[this.state.letraSel]) ? this.state.letras[this.state.letraSel].l : [],
@@ -1380,8 +1411,5 @@ class Component extends DCLogic {
   }
 }
 </script>
-<!-- Cloudflare Web Analytics -->
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "619b2cdd4acb4e35ab0329efc9557b2f"}'></script>
-<!-- End Cloudflare Web Analytics -->
 </body>
 </html>
