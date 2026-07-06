@@ -455,9 +455,9 @@ body { transition: --bg1 .7s ease, --bg2 .7s ease, --acc .7s ease, --acc2 .7s ea
             <div onClick="{{ s.elegir }}" title="{{ s.tip }}" style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 7px 10px; border-radius: 7px; cursor: {{ s.cursor }}; color: {{ s.color }}; font-weight: {{ s.peso }}; font-family: 'Instrument Sans', sans-serif; font-size: 15px;" style-hover="background: color-mix(in srgb, var(--acc, #4fd8c4) 8%, transparent);">
               <span style="display: inline-flex; align-items: center; gap: 8px;">
                 <sc-if value="{{ s.candado }}" hint-placeholder-val="{{ false }}">
-                  <span style="position: relative; width: 11px; height: 11px; flex: none; opacity: .85;">
-                    <span style="position: absolute; left: 1.5px; top: 0; width: 8px; height: 6px; border: 1.5px solid currentColor; border-bottom: none; border-radius: 5px 5px 0 0;"></span>
-                    <span style="position: absolute; left: 0; bottom: 0; width: 11px; height: 6px; background: currentColor; border-radius: 1.5px;"></span>
+                  <span style="position: relative; width: 12px; height: 12px; flex: none; opacity: .85;">
+                    <span style="position: absolute; left: 3px; top: 0; width: 6px; height: 6px; box-sizing: border-box; border: 1.5px solid currentColor; border-bottom: none; border-radius: 4px 4px 0 0;"></span>
+                    <span style="position: absolute; left: 1px; bottom: 0; width: 10px; height: 6px; box-sizing: border-box; background: currentColor; border-radius: 1.5px;"></span>
                   </span>
                 </sc-if>
                 <span style="filter: {{ s.blur }}; transition: filter .4s;">{{ s.titulo }}</span>
@@ -486,9 +486,9 @@ body { transition: --bg1 .7s ease, --bg2 .7s ease, --acc .7s ease, --acc2 .7s ea
 
   <div style="position: fixed; left: 50%; bottom: 40px; z-index: 70; width: min(420px, 88vw); pointer-events: {{ lockToastPointer }}; opacity: {{ lockToastOpacity }}; transform: translateX(-50%) {{ lockToastTransform }}; transition: opacity .35s ease, transform .35s ease;">
     <div style="border: 1px solid color-mix(in srgb, var(--acc2, #e3b657) 55%, transparent); background: rgba(8,12,12,.96); border-radius: 12px; padding: 16px 18px; box-shadow: 0 20px 50px rgba(0,0,0,.45); display: flex; align-items: flex-start; gap: 12px;">
-      <span style="position: relative; width: 14px; height: 14px; flex: none; margin-top: 3px; color: var(--acc2, #e3b657);">
-        <span style="position: absolute; left: 2px; top: 0; width: 10px; height: 8px; border: 2px solid currentColor; border-bottom: none; border-radius: 6px 6px 0 0;"></span>
-        <span style="position: absolute; left: 0; bottom: 0; width: 14px; height: 8px; background: currentColor; border-radius: 2px;"></span>
+      <span style="position: relative; width: 15px; height: 15px; flex: none; margin-top: 3px; color: var(--acc2, #e3b657);">
+        <span style="position: absolute; left: 3.5px; top: 0; width: 8px; height: 8px; box-sizing: border-box; border: 2px solid currentColor; border-bottom: none; border-radius: 5px 5px 0 0;"></span>
+        <span style="position: absolute; left: 1px; bottom: 0; width: 13px; height: 8px; box-sizing: border-box; background: currentColor; border-radius: 2px;"></span>
       </span>
       <span style="font-family: 'Instrument Sans', sans-serif; font-size: 14px; line-height: 1.5; color: #cfd9d5;">{{ lockToastMsg }}</span>
     </div>
